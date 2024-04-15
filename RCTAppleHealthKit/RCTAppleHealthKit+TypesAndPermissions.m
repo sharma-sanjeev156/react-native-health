@@ -199,6 +199,8 @@
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierWalkingHeartRateAverage];
     } else if ([@"RestingHeartRate" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierRestingHeartRate];
+    } else if ([@"UVExposure" isEqualToString: key]) {
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
     } else if ([@"HeartRateVariability" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRateVariabilitySDNN];
     }  else if ([@"HeartbeatSeries" isEqualToString: key] && systemVersion >= 13.0) {

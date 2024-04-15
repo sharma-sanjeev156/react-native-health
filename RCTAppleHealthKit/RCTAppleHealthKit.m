@@ -387,6 +387,12 @@ RCT_EXPORT_METHOD(getRestingHeartRate:(NSDictionary *)input callback:(RCTRespons
     [self vitals_getRestingHeartRate:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(getLatestUVExposure: (NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self _initializeHealthStore];
+    [self vitals_getLatestUVExposure:input callback:callback];
+}
+
 RCT_EXPORT_METHOD(getWalkingHeartRateAverage:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
 {
     [self _initializeHealthStore];
@@ -698,6 +704,7 @@ RCT_EXPORT_METHOD(getClinicalRecords:(NSDictionary *)input callback:(RCTResponse
         @"ProcedureRecord",
         @"VitalSignRecord",
         @"SleepAnalysis",
+        @"uvExposure",
         @"InsulinDelivery"
     ];
     
@@ -796,6 +803,7 @@ RCT_EXPORT_METHOD(getClinicalRecords:(NSDictionary *)input callback:(RCTResponse
             @"Workout",
             @"MindfulSession",
             @"SleepAnalysis",
+            @"uvExposure",
         ];
 
         for(NSString * type in fitnessObservers) {

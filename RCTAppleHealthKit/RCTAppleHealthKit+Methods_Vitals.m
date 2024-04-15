@@ -642,4 +642,36 @@
      }
  }
 
+- (void)vitals_getLatestUVExposure:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
+    HKQuantityType *uvExposureType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
+    // Determine the unit for UV exposure (e.g., Joules per square meter)
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit  countUnit]];
+    // Determine any optional parameters like limit, ascending, startDate, endDate
+    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:HKObjectQueryNoLimit];
+    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:false];
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
+    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
+    // Check if startDate is provided, it's required for fetching UV exposure data
+    if (startDate == nil) {
+        callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
+        return;
+    }
+    // Create a predicate to filter samples between startDate and endDate
+    NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
+    // Fetch UV exposure quantity samples based on the provided parameters
+    [self fetchQuantitySamplesOfType:uvExposureType
+                                unit:unit
+                           predicate:predicate
+                           ascending:ascending
+                               limit:limit
+                          completion:^(NSArray *results, NSError *error) {
+        if (results) {
+            // If samples are retrieved successfully, return them to the callback
+            callback(@[[NSNull null], results]);
+        } else {
+            // If an error occurred during fetching, return the error to the callback
+            callback(@[RCTJSErrorFromNSError(error)]);
+        }
+    }];
+}
 @end

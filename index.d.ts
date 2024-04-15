@@ -801,6 +801,7 @@ declare module 'react-native-health' {
     SleepAnalysis = 'SleepAnalysis',
     StepCount = 'StepCount',
     Steps = 'Steps',
+    uvExposure = 'uvExposure',
     Vo2Max = 'Vo2Max',
     WaistCircumference = 'WaistCircumference',
     WalkingHeartRateAverage = 'WalkingHeartRateAverage',
