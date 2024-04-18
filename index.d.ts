@@ -315,6 +315,21 @@ declare module 'react-native-health' {
       callback: (err: string, results: Array<HealthValue>) => void,
     ): void
 
+    getLatestUVExposure(
+      options: HealthInputOptions,
+      callback: (err: string, results: HealthValue) => void,
+    ): void
+
+    getLatestAppleSleepingWristTemperature(
+      options: HealthInputOptions,
+      callback: (err: string, results: HealthValue) => void,
+    ): void
+
+    getLatestTimeInDaylight(
+      options: HealthInputOptions,
+      callback: (err: string, results: HealthValue) => void,
+    ): void
+
     getBloodGlucoseSamples(
       options: HealthInputOptions,
       callback: (err: string, results: Array<HealthValue>) => void,
