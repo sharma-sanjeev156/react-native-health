@@ -674,4 +674,71 @@
         }
     }];
 }
+- (void)vitals_getLatestTimeInDaylight:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
+    HKQuantityType *timeInDaylightType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+    // Assuming the unit for time in daylight is in hours or minutes, let's use minute as default.
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
+    // Determine any optional parameters like limit, ascending, startDate, endDate
+    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:HKObjectQueryNoLimit];
+    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:false];
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
+    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
+    // Check if startDate is provided, as it's required for fetching the data
+    if (startDate == nil) {
+        callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
+        return;
+    }
+    // Create a predicate to filter samples between startDate and endDate
+    NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
+    // Fetch time in daylight quantity samples based on the provided parameters
+    [self fetchQuantitySamplesOfType:timeInDaylightType
+                                unit:unit
+                           predicate:predicate
+                           ascending:ascending
+                               limit:limit
+                          completion:^(NSArray *results, NSError *error) {
+        if (results) {
+            // If samples are retrieved successfully, return them to the callback
+            callback(@[[NSNull null], results]);
+        } else {
+            // If an error occurred during fetching, return the error to the callback
+            callback(@[RCTJSErrorFromNSError(error)]);
+        }
+    }];
+}
+
+- (void)vitals_getLatestAppleSleepingWristTemperature:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
+    HKQuantityType *temperatureType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleSleepingWristTemperature];
+    // Determine the unit for wrist temperature (e.g., degrees Celsius)
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit degreeCelsiusUnit]];
+    // Determine any optional parameters like limit, ascending, startDate, endDate
+    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:1];  // Typically, you want the latest sample
+    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:false];
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
+    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
+    // Check if startDate is provided, it's required for fetching wrist temperature data
+    if (startDate == nil) {
+        callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
+        return;
+    }
+    // Create a predicate to filter samples between startDate and endDate
+    NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
+    // Fetch wrist temperature quantity samples based on the provided parameters
+    [self fetchQuantitySamplesOfType:temperatureType
+                                unit:unit
+                           predicate:predicate
+                           ascending:ascending
+                               limit:limit
+                          completion:^(NSArray *results, NSError *error) {
+        if (results) {
+            // If samples are retrieved successfully, return them to the callback
+            callback(@[[NSNull null], results]);
+        } else {
+            // If an error occurred during fetching, return the error to the callback
+            callback(@[RCTJSErrorFromNSError(error)]);
+        }
+    }];
+}
+
+
 @end

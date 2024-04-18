@@ -201,6 +201,10 @@
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierRestingHeartRate];
     } else if ([@"uvExposure" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
+    }else if ([@"TimeInDaylight" isEqualToString: key]) {
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+    }else if ([@"appleSleepingWristTemperature" isEqualToString: key]) {
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleSleepingWristTemperature];
     } else if ([@"HeartRateVariability" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRateVariabilitySDNN];
     }  else if ([@"HeartbeatSeries" isEqualToString: key] && systemVersion >= 13.0) {

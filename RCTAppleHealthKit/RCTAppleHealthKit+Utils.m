@@ -210,8 +210,12 @@ NSString * const kMetadataKey = @"metadata";
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRateVariabilitySDNN];
     } else if ([type isEqual:@"RestingHeartRate"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierRestingHeartRate];
-    } else if ([type isEqual:@"UVExposure"]){
+    } else if ([type isEqual:@"uvExposure"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
+    }else if ([type isEqual:@"TimeInDaylight"]){
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+    } else if ([type isEqual:@"appleSleepingWristTemperature"]){
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleSleepingWristTemperature];
     } else if ([type isEqual:@"Running"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceWalkingRunning];
     } else if ([type isEqual:@"StairClimbing"]) {

@@ -802,6 +802,8 @@ declare module 'react-native-health' {
     StepCount = 'StepCount',
     Steps = 'Steps',
     uvExposure = 'uvExposure',
+    TimeInDaylight = 'TimeInDaylight',
+    appleSleepingWristTemperature = 'appleSleepingWristTemperature',
     Vo2Max = 'Vo2Max',
     WaistCircumference = 'WaistCircumference',
     WalkingHeartRateAverage = 'WalkingHeartRateAverage',
