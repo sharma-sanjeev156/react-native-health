@@ -214,6 +214,8 @@ NSString * const kMetadataKey = @"metadata";
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
     }else if ([type isEqual:@"TimeInDaylight"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+    }else if ([type isEqual:@"NumberOfAlcoholicBeverages"]){
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfAlcoholicBeverages];
     } else if ([type isEqual:@"appleSleepingWristTemperature"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleSleepingWristTemperature];
     } else if ([type isEqual:@"Running"]){

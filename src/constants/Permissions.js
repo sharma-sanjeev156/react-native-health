@@ -90,6 +90,7 @@ export const Permissions = {
   Steps: 'Steps',
   uvExposure: 'uvExposure',
   TimeInDaylight: 'TimeInDaylight',
+  NumberOfAlcoholicBeverages: 'NumberOfAlcoholicBeverages',
   appleSleepingWristTemperature: 'appleSleepingWristTemperature',
   Vo2Max: 'Vo2Max',
   WaistCircumference: 'WaistCircumference',

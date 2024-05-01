@@ -676,21 +676,23 @@
 }
 - (void)vitals_getLatestTimeInDaylight:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
     HKQuantityType *timeInDaylightType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
-    // Assuming the unit for time in daylight is in hours or minutes, let's use minute as default.
     HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
-    // Determine any optional parameters like limit, ascending, startDate, endDate
-    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:HKObjectQueryNoLimit];
-    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:false];
-    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
+    
+    // Set a limit to the number of entries if necessary
+    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:10]; // Adjust the default limit as needed
+
+    // Use provided startDate and endDate, defaulting to the last two days
     NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
-    // Check if startDate is provided, as it's required for fetching the data
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:[NSDate dateWithTimeInterval:-24*60*60 sinceDate:endDate]];
+
     if (startDate == nil) {
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
     }
-    // Create a predicate to filter samples between startDate and endDate
+
     NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
-    // Fetch time in daylight quantity samples based on the provided parameters
+    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:NO];
+
     [self fetchQuantitySamplesOfType:timeInDaylightType
                                 unit:unit
                            predicate:predicate
@@ -698,14 +700,48 @@
                                limit:limit
                           completion:^(NSArray *results, NSError *error) {
         if (results) {
-            // If samples are retrieved successfully, return them to the callback
+            // Process results to return aggregated or individual entries as needed
             callback(@[[NSNull null], results]);
         } else {
-            // If an error occurred during fetching, return the error to the callback
             callback(@[RCTJSErrorFromNSError(error)]);
         }
     }];
 }
+- (void)vitals_getNumberOfAlcoholicBeverages:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
+    
+    HKQuantityType *alcoholicBeveragesType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfAlcoholicBeverages];
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit countUnit]];
+    
+    // Set a limit to the number of entries if necessary
+    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:10]; // Adjust the default limit as needed
+
+    // Use provided startDate and endDate, defaulting to the last two days
+    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:[NSDate dateWithTimeInterval:-24*60*60 sinceDate:endDate]];
+
+    if (startDate == nil) {
+        callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
+        return;
+    }
+
+    NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
+    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:NO];
+
+    [self fetchQuantitySamplesOfType:alcoholicBeveragesType
+                                unit:unit
+                           predicate:predicate
+                           ascending:ascending
+                               limit:limit
+                          completion:^(NSArray *results, NSError *error) {
+        if (results) {
+            // Process results to return aggregated or individual entries as needed
+            callback(@[[NSNull null], results]);
+        } else {
+            callback(@[RCTJSErrorFromNSError(error)]);
+        }
+    }];
+}
+
 
 - (void)vitals_getLatestAppleSleepingWristTemperature:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
     HKQuantityType *temperatureType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleSleepingWristTemperature];

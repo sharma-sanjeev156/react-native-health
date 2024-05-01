@@ -329,6 +329,10 @@ declare module 'react-native-health' {
       options: HealthInputOptions,
       callback: (err: string, results: HealthValue) => void,
     ): void
+    getNumberOfAlcoholicBeverages(
+      options: HealthInputOptions,
+      callback: (err: string, results: HealthValue) => void,
+    ): void
 
     getBloodGlucoseSamples(
       options: HealthInputOptions,
@@ -818,6 +822,7 @@ declare module 'react-native-health' {
     Steps = 'Steps',
     uvExposure = 'uvExposure',
     TimeInDaylight = 'TimeInDaylight',
+    NumberOfAlcoholicBeverages = 'NumberOfAlcoholicBeverages',
     appleSleepingWristTemperature = 'appleSleepingWristTemperature',
     Vo2Max = 'Vo2Max',
     WaistCircumference = 'WaistCircumference',

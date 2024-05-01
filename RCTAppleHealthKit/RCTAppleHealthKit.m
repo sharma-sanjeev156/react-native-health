@@ -399,6 +399,12 @@ RCT_EXPORT_METHOD(getLatestTimeInDaylight: (NSDictionary *)input callback:(RCTRe
     [self vitals_getLatestTimeInDaylight:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(getNumberOfAlcoholicBeverages: (NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self _initializeHealthStore];
+    [self vitals_getNumberOfAlcoholicBeverages:input callback:callback];
+}
+
 RCT_EXPORT_METHOD(getLatestAppleSleepingWristTemperature: (NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
 {
     [self _initializeHealthStore];
@@ -718,6 +724,7 @@ RCT_EXPORT_METHOD(getClinicalRecords:(NSDictionary *)input callback:(RCTResponse
         @"SleepAnalysis",
         @"uvExposure",
         @"TimeInDaylight",
+        @"NumberOfAlcoholicBeverages",
         @"AppleSleepingWristTemperature",
         @"InsulinDelivery"
     ];
@@ -819,6 +826,7 @@ RCT_EXPORT_METHOD(getClinicalRecords:(NSDictionary *)input callback:(RCTResponse
             @"SleepAnalysis",
             @"uvExposure",
             @"TimeInDaylight",
+            @"NumberOfAlcoholicBeverages",
             @"AppleSleepingWristTemperature",
         ];
 
