@@ -25,5 +25,6 @@
 - (void)vitals_getLatestUVExposure:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 - (void)vitals_getLatestTimeInDaylight:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 - (void)vitals_getNumberOfAlcoholicBeverages:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
+- (void)vitals_getElectrodermalActivity:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 - (void)vitals_getLatestAppleSleepingWristTemperature:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 @end

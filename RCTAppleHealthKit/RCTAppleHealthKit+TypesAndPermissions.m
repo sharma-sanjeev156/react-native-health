@@ -205,6 +205,8 @@
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
     }else if ([@"NumberOfAlcoholicBeverages" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfAlcoholicBeverages];
+    }else if ([@"ElectrodermalActivity" isEqualToString: key]) {
+        return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierElectrodermalActivity];
     }else if ([@"appleSleepingWristTemperature" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleSleepingWristTemperature];
     } else if ([@"HeartRateVariability" isEqualToString: key]) {

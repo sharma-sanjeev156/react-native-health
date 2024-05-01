@@ -91,6 +91,7 @@ export const Permissions = {
   uvExposure: 'uvExposure',
   TimeInDaylight: 'TimeInDaylight',
   NumberOfAlcoholicBeverages: 'NumberOfAlcoholicBeverages',
+  ElectrodermalActivity: 'ElectrodermalActivity',
   appleSleepingWristTemperature: 'appleSleepingWristTemperature',
   Vo2Max: 'Vo2Max',
   WaistCircumference: 'WaistCircumference',
