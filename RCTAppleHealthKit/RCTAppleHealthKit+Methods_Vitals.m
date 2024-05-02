@@ -533,7 +533,32 @@
             for (HKElectrocardiogram *sample in results) {
                 NSString *startDateString = [RCTAppleHealthKit buildISO8601StringFromDate:sample.startDate];
                 NSString *endDateString = [RCTAppleHealthKit buildISO8601StringFromDate:sample.endDate];
-                NSString *classification = [RCTAppleHealthKit stringForElectrocardiogramClassification:sample.classification];
+                NSString *classification;
+                 switch(sample.classification) {
+                     case(HKElectrocardiogramClassificationNotSet):
+                         classification = @"NotSet";
+                         break;
+                     case(HKElectrocardiogramClassificationSinusRhythm):
+                         classification = @"SinusRhythm";
+                         break;
+                     case(HKElectrocardiogramClassificationAtrialFibrillation):
+                         classification = @"AtrialFibrillation";
+                         break;
+                     case(HKElectrocardiogramClassificationInconclusiveLowHeartRate):
+                         classification = @"InconclusiveLowHeartRate";
+                         break;
+                     case(HKElectrocardiogramClassificationInconclusiveHighHeartRate):
+                         classification = @"InconclusiveHighHeartRate";
+                         break;
+                     case(HKElectrocardiogramClassificationInconclusivePoorReading):
+                         classification = @"InconclusivePoorReading";
+                         break;
+                     case(HKElectrocardiogramClassificationInconclusiveOther):
+                         classification = @"InconclusiveOther";
+                         break;
+                     default:
+                         classification = @"Unrecognized";
+                 }
 
                 HKUnit *count = [HKUnit countUnit];
                 HKUnit *minute = [HKUnit minuteUnit];
