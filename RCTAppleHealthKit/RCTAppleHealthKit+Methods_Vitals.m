@@ -628,38 +628,45 @@
     }];
 }
 - (void)vitals_getLatestTimeInDaylight:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
-    HKQuantityType *timeInDaylightType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
-    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
-    
-    // Set a limit to the number of entries if necessary
-    NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:10]; // Adjust the default limit as needed
+    // Check for iOS version compatibility
+    if (@available(iOS 17.0, *)) {
+        HKQuantityType *timeInDaylightType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+        HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
 
-    // Use provided startDate and endDate, defaulting to the last two days
-    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
-    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:[NSDate dateWithTimeInterval:-24*60*60 sinceDate:endDate]];
+        // Set a limit to the number of entries if necessary
+        NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:10]; // Adjust the default limit as needed
 
-    if (startDate == nil) {
-        callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
-        return;
-    }
+        // Use provided startDate and endDate, defaulting to the last two days
+        NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
+        NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:[NSDate dateWithTimeInterval:-24*60*60 sinceDate:endDate]];
 
-    NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
-    BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:NO];
-
-    [self fetchQuantitySamplesOfType:timeInDaylightType
-                                unit:unit
-                           predicate:predicate
-                           ascending:ascending
-                               limit:limit
-                          completion:^(NSArray *results, NSError *error) {
-        if (results) {
-            // Process results to return aggregated or individual entries as needed
-            callback(@[[NSNull null], results]);
-        } else {
-            callback(@[RCTJSErrorFromNSError(error)]);
+        if (startDate == nil) {
+            callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
+            return;
         }
-    }];
+
+        NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
+        BOOL ascending = [RCTAppleHealthKit boolFromOptions:input key:@"ascending" withDefault:NO];
+
+        [self fetchQuantitySamplesOfType:timeInDaylightType
+                                    unit:unit
+                               predicate:predicate
+                               ascending:ascending
+                                   limit:limit
+                              completion:^(NSArray *results, NSError *error) {
+            if (results) {
+                // Process results to return aggregated or individual entries as needed
+                callback(@[[NSNull null], results]);
+            } else {
+                callback(@[RCTJSErrorFromNSError(error)]);
+            }
+        }];
+    } else {
+        // Handle the case where the feature is unavailable
+        callback(@[RCTMakeError(@"Time in Daylight data is only available on iOS 17 or later", nil, nil)]);
+    }
 }
+
 - (void)vitals_getNumberOfAlcoholicBeverages:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback {
     
     HKQuantityType *alcoholicBeveragesType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfAlcoholicBeverages];

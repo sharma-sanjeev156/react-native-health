@@ -202,7 +202,9 @@
     } else if ([@"uvExposure" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
     }else if ([@"TimeInDaylight" isEqualToString: key]) {
+        if (@available(iOS 17.0, *)) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+        }
     }else if ([@"NumberOfAlcoholicBeverages" isEqualToString: key]) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfAlcoholicBeverages];
     }else if ([@"ElectrodermalActivity" isEqualToString: key]) {

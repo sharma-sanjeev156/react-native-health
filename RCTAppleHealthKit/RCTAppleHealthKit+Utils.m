@@ -213,7 +213,9 @@ NSString * const kMetadataKey = @"metadata";
     } else if ([type isEqual:@"uvExposure"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierUVExposure];
     }else if ([type isEqual:@"TimeInDaylight"]){
+        if (@available(iOS 17.0, *)) {
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierTimeInDaylight];
+        }
     }else if ([type isEqual:@"NumberOfAlcoholicBeverages"]){
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierNumberOfAlcoholicBeverages];
     }else if ([type isEqual:@"ElectrodermalActivity"]){
